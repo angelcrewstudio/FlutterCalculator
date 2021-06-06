@@ -29,40 +29,46 @@ class _CalculatorDisplayState extends State<CalculatorDisplay> {
           borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(20.0),
               bottomRight: Radius.circular(20.0))),
-      child: Stack(
-        fit: StackFit.expand,
-        children: [getTitleText(), getBodyText()],
-      ),
+      child: getDisplayText(),
     );
+  }
+
+  Widget getDisplayText() {
+    return StreamBuilder(
+        stream: widget.bloc.calculatorStream,
+        initialData:
+            CalculatorData(text: "", action: CalculatorAction.FUNCTION),
+        builder: (context, snapshot) {
+          return Stack(
+            fit: StackFit.expand,
+            children: [
+              getBodyText(snapshot.data as CalculatorData),
+              getTitleText()
+            ],
+          );
+        });
   }
 
   Widget getTitleText() {
     return Positioned(
         top: 5,
         left: 15,
-        child: Text('Calculator',
+        child: Text(_dataList.isEmpty ? 'Calculator' : "",
             style: TextStyle(fontSize: 50.0, color: Colors.white)));
   }
 
-  Widget getBodyText() {
-    return StreamBuilder(
-      stream: widget.bloc.calculatorStream,
-      initialData: CalculatorData(text: "", action: CalculatorAction.FUNCTION),
-      builder: (context, snapshot) {
-        CalculatorData data = snapshot.data as CalculatorData;
-        if (data.action == CalculatorAction.FUNCTION) {
-          executeFuntionData(data);
-        } else {
-          addDataToList(data);
-        }
+  Widget getBodyText(CalculatorData data) {
+    if (data.action == CalculatorAction.FUNCTION) {
+      executeFuntionData(data);
+    } else {
+      addDataToList(data);
+    }
 
-        return Positioned(
-            bottom: 5,
-            right: 15,
-            child: Text(getTextForStream(),
-                style: TextStyle(fontSize: 50.0, color: Colors.white)));
-      },
-    );
+    return Positioned(
+        top: 5,
+        right: 15,
+        child: Text(getTextForStream(),
+            style: TextStyle(fontSize: 50.0, color: Colors.white)));
   }
 
   void addDataToList(CalculatorData data) {
