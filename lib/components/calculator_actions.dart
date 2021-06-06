@@ -64,9 +64,9 @@ class _CalculatorActionsState extends State<CalculatorActions> {
           text: "+",
           action: CalculatorAction.OPERATION,
           buttonColor: Colors.grey.shade900),
-      CalculatorData(text: "<>", action: CalculatorAction.FUNCTION),
-      CalculatorData(text: "0", action: CalculatorAction.FUNCTION),
-      CalculatorData(text: ".", action: CalculatorAction.OPERATION),
+      CalculatorData(text: " ", action: CalculatorAction.FUNCTION),
+      CalculatorData(text: "0", action: CalculatorAction.OPERAND),
+      CalculatorData(text: " ", action: CalculatorAction.FUNCTION),
       CalculatorData(
           text: "=",
           action: CalculatorAction.FUNCTION,
