@@ -51,8 +51,8 @@ class _CalculatorDisplayState extends State<CalculatorDisplay> {
 
   Widget getTitleText() {
     return Positioned(
-        top: 5,
-        left: 15,
+        top: 20,
+        left: 20,
         child: AnimatedDefaultTextStyle(
           style: _dataList.isEmpty
               ? TextStyle(fontSize: 50.0, color: Colors.white)
@@ -70,8 +70,8 @@ class _CalculatorDisplayState extends State<CalculatorDisplay> {
     }
 
     return Positioned(
-        top: 5,
-        right: 15,
+        top: 20,
+        right: 20,
         child: Text(getTextForStream(),
             style: TextStyle(fontSize: 50.0, color: Colors.white)));
   }
