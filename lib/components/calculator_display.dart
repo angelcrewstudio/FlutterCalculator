@@ -53,8 +53,13 @@ class _CalculatorDisplayState extends State<CalculatorDisplay> {
     return Positioned(
         top: 5,
         left: 15,
-        child: Text(_dataList.isEmpty ? 'Calculator' : "",
-            style: TextStyle(fontSize: 50.0, color: Colors.white)));
+        child: AnimatedDefaultTextStyle(
+          style: _dataList.isEmpty
+              ? TextStyle(fontSize: 50.0, color: Colors.white)
+              : TextStyle(fontSize: 0.0, color: Colors.white),
+          duration: Duration(milliseconds: 300),
+          child: Text('Calculator'),
+        ));
   }
 
   Widget getBodyText(CalculatorData data) {
