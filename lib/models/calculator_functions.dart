@@ -6,10 +6,12 @@ class CalculatorFunctions {
   bool evaluated = false;
 
   void addDataToList(CalculatorData data) {
-    if ((data.action == CalculatorAction.OPERATION &&
-            dataList.isNotEmpty &&
-            dataList.last.action != CalculatorAction.OPERATION) ||
-        (data.action == CalculatorAction.OPERAND)) {
+    if (data.action == CalculatorAction.OPERATION &&
+        dataList.isNotEmpty &&
+        dataList.last.action != CalculatorAction.OPERATION) {
+      dataList.add(data);
+      evaluated = false;
+    } else if (data.action == CalculatorAction.OPERAND) {
       if (evaluated) dataList.clear();
       dataList.add(data);
       evaluated = false;
