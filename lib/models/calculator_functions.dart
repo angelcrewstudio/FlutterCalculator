@@ -13,23 +13,26 @@ class CalculatorFunctions {
       dataList.add(data);
       evaluated = false;
     } else if (data.action == CalculatorAction.OPERAND) {
-      if (evaluated) dataList.clear();
+      if (evaluated) clearDataList();
       dataList.add(data);
-      evaluated = false;
-      errorOccured = false;
     }
+  }
+
+  void clearDataList() {
+    dataList.clear();
+    evaluated = false;
+    errorOccured = false;
   }
 
   void executeFuntionData(CalculatorData data) {
     switch (data.text) {
       case "AC":
-        dataList.clear();
-        evaluated = false;
-        errorOccured = false;
+        clearDataList();
         break;
       case "<-":
         dataList.removeLast();
         evaluated = false;
+        errorOccured = false;
         break;
       case "=":
         evaluateDataList();
@@ -66,7 +69,6 @@ class CalculatorFunctions {
   void evaluateDataList() {
     var r = evaluate();
     dataList.clear();
-    print(r.toString());
     dataList.add(
         CalculatorData(text: r.toString(), action: CalculatorAction.OPERAND));
     evaluated = true;
