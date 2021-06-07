@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/models/calculator_bloc.dart';
 import 'package:flutter_application_1/models/calculator_data.dart';
-import 'package:expressions/expressions.dart';
+import 'package:flutter_application_1/models/calculator_functions.dart';
 
 class CalculatorDisplay extends StatefulWidget {
   CalculatorBloc bloc;
@@ -11,8 +11,7 @@ class CalculatorDisplay extends StatefulWidget {
 }
 
 class _CalculatorDisplayState extends State<CalculatorDisplay> {
-  List<CalculatorData> _dataList = [];
-  bool evaluated = false;
+  CalculatorFunctions calcFunctions = new CalculatorFunctions();
 
   @override
   void dispose() {
@@ -54,7 +53,7 @@ class _CalculatorDisplayState extends State<CalculatorDisplay> {
         top: 20,
         left: 20,
         child: AnimatedDefaultTextStyle(
-          style: _dataList.isEmpty
+          style: calcFunctions.dataList.isEmpty
               ? TextStyle(fontSize: 50.0, color: Colors.white)
               : TextStyle(fontSize: 0.0, color: Colors.white),
           duration: Duration(milliseconds: 300),
@@ -64,9 +63,9 @@ class _CalculatorDisplayState extends State<CalculatorDisplay> {
 
   Widget getBodyText(CalculatorData data) {
     if (data.action == CalculatorAction.FUNCTION) {
-      executeFuntionData(data);
+      calcFunctions.executeFuntionData(data);
     } else {
-      addDataToList(data);
+      calcFunctions.addDataToList(data);
     }
 
     return Positioned(
@@ -76,58 +75,9 @@ class _CalculatorDisplayState extends State<CalculatorDisplay> {
             style: TextStyle(fontSize: 50.0, color: Colors.white)));
   }
 
-  void addDataToList(CalculatorData data) {
-    if ((data.action == CalculatorAction.OPERATION &&
-            _dataList.isNotEmpty &&
-            _dataList.last.action != CalculatorAction.OPERATION) ||
-        (data.action == CalculatorAction.OPERAND)) {
-      if (evaluated) _dataList.clear();
-      _dataList.add(data);
-      evaluated = false;
-    }
-  }
-
-  void executeFuntionData(CalculatorData data) {
-    switch (data.text) {
-      case "AC":
-        _dataList.clear();
-        evaluated = false;
-        break;
-      case "<-":
-        _dataList.removeLast();
-        evaluated = false;
-        break;
-      case "=":
-        evaluate();
-        break;
-      default:
-        // do nothing
-        break;
-    }
-  }
-
-  void evaluate() {
-    String dataListStr = "";
-    for (CalculatorData data in _dataList) {
-      dataListStr += data.text == "x" ? "*" : data.text;
-    }
-    var expression = Expression.parse(dataListStr);
-
-    // Create context containing all the variables and functions used in the expression
-    var context = {"": null};
-
-    // Evaluate expression
-    final evaluator = const ExpressionEvaluator();
-    var r = evaluator.eval(expression, context);
-    _dataList.clear();
-    _dataList.add(
-        CalculatorData(text: r.toString(), action: CalculatorAction.OPERAND));
-    evaluated = true;
-  }
-
   String getTextForStream() {
     String textForStream = "";
-    for (CalculatorData calData in _dataList) {
+    for (CalculatorData calData in calcFunctions.dataList) {
       textForStream += calData.text;
     }
     return textForStream;

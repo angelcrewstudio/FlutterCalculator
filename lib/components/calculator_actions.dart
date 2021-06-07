@@ -31,7 +31,6 @@ class _CalculatorActionsState extends State<CalculatorActions> {
 
   void onButtonPressed(CalculatorData data) {
     widget.bloc.calculatorSink.add(data);
-    print("Callback :: Pressed :: " + data.text);
   }
 
   List<CalculatorData> getNormalCalculatorButtons() {
