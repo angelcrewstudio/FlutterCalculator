@@ -58,6 +58,9 @@ class CalculatorFunctions {
       // Evaluate expression
       final evaluator = const ExpressionEvaluator();
       result = evaluator.eval(expression, context);
+      if (!isInteger(result)) {
+        result = double.parse((result).toStringAsFixed(2));
+      }
     } catch (e) {
       result = "Error!";
       errorOccured = true;
@@ -65,6 +68,8 @@ class CalculatorFunctions {
 
     return result;
   }
+
+  bool isInteger(num value) => value is int || value == value.roundToDouble();
 
   void evaluateDataList() {
     var r = evaluate();
